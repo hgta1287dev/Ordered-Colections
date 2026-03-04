@@ -542,10 +542,11 @@ end
 function OrderedSet.Each<T>(self: OrderedSet<T>, callback: (value: T) -> boolean?)
 	local current = self._head
 	while current do
+		local nextNode = current.next
 		if callback(current.value) == false then
 			break
 		end
-		current = current.next
+		current = nextNode
 	end
 end
 
