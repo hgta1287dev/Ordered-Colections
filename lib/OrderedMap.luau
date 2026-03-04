@@ -29,7 +29,7 @@ export type OrderedMap<K, V> = {
 
 	Set: (self: OrderedMap<K, V>, key: K, value: V) -> boolean,
 	Get: (self: OrderedMap<K, V>, key: K) -> V?,
-	Remove: (self: OrderedMap<K, V>, key: K) -> V?,
+	Pop: (self: OrderedMap<K, V>, key: K) -> V?,
 	Clear: (self: OrderedMap<K, V>) -> (),
 
 	Has: (self: OrderedMap<K, V>, key: K) -> boolean,
@@ -129,7 +129,7 @@ end
 	Removes the key and returns its value.
 	Returns nil if key does not exist.
 ]=]
-function OrderedMap.Remove<K, V>(self: OrderedMap<K, V>, key: K): V?
+function OrderedMap.Pop<K, V>(self: OrderedMap<K, V>, key: K): V?
 	local node = self._map[key]
 	if not node then
 		return nil

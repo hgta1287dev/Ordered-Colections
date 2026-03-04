@@ -8,8 +8,8 @@ export type Map<K, V> = OrderedMap.OrderedMap<K, V>
 
 -- * Collections
 local collections = {
-	Set = OrderedSet,
-	Map = OrderedMap,
+	Set = OrderedSet :: typeof(OrderedSet),
+	Map = OrderedMap :: typeof(OrderedMap),
 }
 
 return collections
