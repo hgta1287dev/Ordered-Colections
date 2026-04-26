@@ -28,6 +28,7 @@ export type Set<T> = {
 	Values: (self: Set<T>, reverse: boolean?) -> () -> T?,
 	Iter: (self: Set<T>, reverse: boolean?) -> Iter.Iter<T>,
 
+	Clone: (self: Set<T>) -> Set<T>,
 	ToArray: (self: Set<T>) -> { T },
 	ToMap: (self: Set<T>) -> { [T]: boolean },
 } & LinkedCollection.LinkedCollection
@@ -36,6 +37,14 @@ function Set.new<T>(): Set<T>
 	local self = setmetatable(LinkedCollection.new(), Set)
 	self._map = {}
 	return self
+end
+
+function Set.fromArray<T>(arr: { T }): Set<T>
+	local set = Set.new()
+	for _, v in ipairs(arr) do
+		set:PushBack(v)
+	end
+	return set
 end
 
 function Set.PushFront<T>(self: Set<T>, value: T): boolean
@@ -88,7 +97,7 @@ function Set.Pop<T>(self: Set<T>, value: T): T?
 	self._map[value] = nil
 	self._size -= 1
 
-	return value
+	return node.value
 end
 
 function Set.PopFront<T>(self: Set<T>): T?
@@ -99,6 +108,7 @@ function Set.PopFront<T>(self: Set<T>): T?
 
 	self._map[node.value] = nil
 	self._size -= 1
+
 	return node.value
 end
 
@@ -162,6 +172,16 @@ function Set.ToMap<T>(self: Set<T>): { [T]: boolean }
 	end
 
 	return map
+end
+
+function Set.Clone<T>(self: Set<T>): Set<T>
+	local newSet = Set.new()
+
+	for v in self:Values() do
+		newSet:PushBack(v)
+	end
+
+	return newSet
 end
 
 return Set
