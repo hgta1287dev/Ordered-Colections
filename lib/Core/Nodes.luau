@@ -12,7 +12,7 @@ export type NodeKey<K, V> = Node<V> & {
 local Nodes = {}
 
 function Nodes.new<K, V>(value: V, key: K?): Node<V> | NodeKey<K, V>
-	if key then
+	if key ~= nil then
 		return Nodes.keyValue(key, value)
 	else
 		return Nodes.value(value)

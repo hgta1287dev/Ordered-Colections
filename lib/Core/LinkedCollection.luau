@@ -13,6 +13,7 @@ function LinkedCollection.new(): LinkedCollection
 	local self = setmetatable(BaseCollection.new(), LinkedCollection)
 	self._head = nil
 	self._tail = nil
+
 	return self
 end
 

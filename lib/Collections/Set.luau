@@ -8,13 +8,11 @@ setmetatable(Set, { __index = LinkedCollection })
 
 type Node<T> = Nodes.Node<T>
 
-export type SetData<T> = {
+export type Set<T> = {
 	_map: { [T]: Node<T> },
 	_head: Node<T>?,
 	_tail: Node<T>?,
-}
 
-export type Set<T> = {
 	PushFront: (self: Set<T>, value: T) -> boolean,
 	PushBack: (self: Set<T>, value: T) -> boolean,
 
@@ -28,8 +26,11 @@ export type Set<T> = {
 	PeekBack: (self: Set<T>) -> T?,
 
 	Values: (self: Set<T>, reverse: boolean?) -> () -> T?,
-	Iter: (self: Set<T>, reverse: boolean?) -> () -> T?,
-} & LinkedCollection.LinkedCollection & SetData<T>
+	Iter: (self: Set<T>, reverse: boolean?) -> Iter.Iter<T>,
+
+	ToArray: (self: Set<T>) -> { T },
+	ToMap: (self: Set<T>) -> { [T]: boolean },
+} & LinkedCollection.LinkedCollection
 
 function Set.new<T>(): Set<T>
 	local self = setmetatable(LinkedCollection.new(), Set)
@@ -132,13 +133,35 @@ function Set.Values<T>(self: Set<T>, reverse: boolean?): () -> T?
 	return Iter.values(reverse and self._tail or self._head, reverse)
 end
 
-function Set.Iter<T>(self: Set<T>, reverse: boolean?)
+function Set.Iter<T>(self: Set<T>, reverse: boolean?): Iter.Iter<T>
 	return Iter.new(Iter.values(reverse and self._tail or self._head, reverse))
 end
 
 function Set.Clear<T>(self: Set<T>)
 	LinkedCollection.Clear(self)
 	self._map = {}
+end
+
+function Set.ToArray<T>(self: Set<T>): { T }
+	local arr = table.create(self:Size())
+	local i = 0
+
+	for v in self:Values() do
+		i += 1
+		arr[i] = v
+	end
+
+	return arr
+end
+
+function Set.ToMap<T>(self: Set<T>): { [T]: boolean }
+	local map = {}
+
+	for v in self:Values() do
+		map[v] = true
+	end
+
+	return map
 end
 
 return Set
