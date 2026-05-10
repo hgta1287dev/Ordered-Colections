@@ -1,5 +1,5 @@
 local LinkedCollection = require(script.Parent.Parent.Core.LinkedCollection)
-local Iter = require(script.Parent.Parent.Utils.Iter)
+local Iter = require(script.Parent.Parent.Core.Iter)
 
 local Map = {}
 Map.__index = Map

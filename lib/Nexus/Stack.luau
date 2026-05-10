@@ -1,6 +1,6 @@
 local LinkedCollection = require(script.Parent.Parent.Core.LinkedCollection)
 local Nodes = require(script.Parent.Parent.Core.Nodes)
-local Iter = require(script.Parent.Parent.Utils.Iter)
+local Iter = require(script.Parent.Parent.Core.Iter)
 
 local Stack = {}
 Stack.__index = Stack
