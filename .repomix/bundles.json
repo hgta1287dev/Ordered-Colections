@@ -1,0 +1,16 @@
+{
+  "bundles": {
+    "Collections-764": {
+      "name": "Collections",
+      "created": "2026-04-26T05:08:19.879Z",
+      "lastUsed": "2026-04-26T05:15:17.845Z",
+      "tags": [],
+      "files": [
+        "lib/Utils",
+        "lib/init.luau",
+        "lib/Core",
+        "lib/Collections"
+      ]
+    }
+  }
+}

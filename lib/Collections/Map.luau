@@ -33,7 +33,21 @@ export type Map<K, V> = {
 	PeekFront: (self: Map<K, V>) -> (K?, V?),
 	PeekBack: (self: Map<K, V>) -> (K?, V?),
 	Iter: (self: Map<K, V>, reverse: boolean?) -> () -> (K?, V?),
+
+	Entries: (self: Map<K, V>) -> () -> (K, V),
 } & LinkedCollection.LinkedCollection & MapData<K, V>
+
+local function checkValidKey(key)
+	if key == nil then
+		error("Key cannot be nil", 2)
+	end
+end
+
+local function checkValidValue(value)
+	if value == nil then
+		error("Value cannot be nil", 2)
+	end
+end
 
 local function makeNode<K, V>(key: K, value: V): Node<K, V>
 	return {
@@ -60,6 +74,8 @@ function Map.Get<K, V>(self: Map<K, V>, key: K): V?
 end
 
 function Map.SetFront<K, V>(self: Map<K, V>, key: K, value: V): boolean
+	checkValidKey(key)
+	checkValidValue(value)
 	local node = self._map[key]
 
 	if node then
@@ -79,6 +95,8 @@ function Map.SetFront<K, V>(self: Map<K, V>, key: K, value: V): boolean
 end
 
 function Map.SetBack<K, V>(self: Map<K, V>, key: K, value: V): boolean
+	checkValidKey(key)
+	checkValidValue(value)
 	local node = self._map[key]
 
 	if node then
@@ -98,6 +116,8 @@ function Map.SetBack<K, V>(self: Map<K, V>, key: K, value: V): boolean
 end
 
 function Map.Set<K, V>(self: Map<K, V>, key: K, value: V)
+	checkValidKey(key)
+	checkValidValue(value)
 	local node = self._map[key]
 
 	if node then
@@ -109,6 +129,7 @@ function Map.Set<K, V>(self: Map<K, V>, key: K, value: V)
 end
 
 function Map.Pop<K, V>(self: Map<K, V>, key: K): V?
+	checkValidKey(key)
 	local node = self._map[key]
 	if not node then
 		return nil
@@ -159,7 +180,7 @@ function Map.PeekBack<K, V>(self: Map<K, V>): (K?, V?)
 	return node.key, node.value
 end
 
-function Map.Values<K, V>(self: Map<K, V>, reverse: boolean?): () -> (K?, V?)
+function Map.Entries<K, V>(self: Map<K, V>, reverse: boolean?): () -> (K?, V?)
 	return Iter.keyValues(reverse and self._tail or self._head, reverse)
 end
 
