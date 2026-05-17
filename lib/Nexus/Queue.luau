@@ -22,6 +22,8 @@ export type Queue<T> = {
 	Front: (self: Queue<T>) -> T?,
 	Back: (self: Queue<T>) -> T?,
 
+	Each: (self: Queue<T>, fn: (T) -> (), reverse: boolean?) -> (),
+
 	Iter: (self: Queue<T>, reverse: boolean?) -> () -> T?,
 	Empty: (self: Queue<T>) -> boolean,
 	Size: (self: Queue<T>) -> number,
@@ -110,6 +112,14 @@ end
 
 function Queue.Back<T>(self: Queue<T>): T?
 	return Queue.PeekBack(self)
+end
+
+function Queue.Each<T>(self: Queue<T>, fn: (T) -> (), reverse: boolean?)
+	local node = reverse and self._tail or self._head
+	while node do
+		fn(node.value)
+		node = reverse and node.prev or node.next
+	end
 end
 
 function Queue.Iter<T>(self: Queue<T>, reverse: boolean?): () -> T?

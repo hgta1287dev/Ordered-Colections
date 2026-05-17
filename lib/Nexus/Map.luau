@@ -34,6 +34,7 @@ export type Map<K, V> = {
 	PeekBack: (self: Map<K, V>) -> (K?, V?),
 	Iter: (self: Map<K, V>, reverse: boolean?) -> () -> (K?, V?),
 
+	Each: (self: Map<K, V>, callback: (key: K, value: V) -> (), reverse: boolean?) -> (),
 	Entries: (self: Map<K, V>) -> () -> (K, V),
 } & LinkedCollection.LinkedCollection & MapData<K, V>
 
@@ -178,6 +179,14 @@ function Map.PeekBack<K, V>(self: Map<K, V>): (K?, V?)
 		return nil, nil
 	end
 	return node.key, node.value
+end
+
+function Map.Each<K, V>(self: Map<K, V>, fn: (K, V) -> (), reverse: boolean?)
+	local node = reverse and self._tail or self._head
+	while node do
+		fn(node.key, node.value)
+		node = reverse and node.prev or node.next
+	end
 end
 
 function Map.Entries<K, V>(self: Map<K, V>, reverse: boolean?): () -> (K?, V?)

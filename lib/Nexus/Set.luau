@@ -28,6 +28,8 @@ export type Set<T> = {
 	Values: (self: Set<T>, reverse: boolean?) -> () -> T?,
 	Iter: (self: Set<T>, reverse: boolean?) -> Iter.Iter<T>,
 
+	Each: (self: Set<T>, fn: (T) -> (), reverse: boolean?) -> (),
+
 	Clone: (self: Set<T>) -> Set<T>,
 	ToArray: (self: Set<T>) -> { T },
 	ToMap: (self: Set<T>) -> { [T]: boolean },
@@ -172,6 +174,14 @@ function Set.ToMap<T>(self: Set<T>): { [T]: boolean }
 	end
 
 	return map
+end
+
+function Set.Each<T>(self: Set<T>, fn: (T) -> (), reverse: boolean?)
+	local node = reverse and self._tail or self._head
+	while node do
+		fn(node.value)
+		node = reverse and node.prev or node.next
+	end
 end
 
 function Set.Clone<T>(self: Set<T>): Set<T>

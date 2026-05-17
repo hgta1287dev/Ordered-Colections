@@ -13,7 +13,7 @@ export type Stack<T> = {
 	Pop: (self: Stack<T>) -> T?,
 	Peek: (self: Stack<T>) -> T?,
 	Top: (self: Stack<T>) -> T?,
-
+	Each: (self: Stack<T>, fn: (T) -> (), reverse: boolean?) -> (),
 	Iter: (self: Stack<T>, reverse: boolean?) -> () -> T?,
 	Empty: (self: Stack<T>) -> boolean,
 	Size: (self: Stack<T>) -> number,
@@ -67,6 +67,14 @@ end
 
 function Stack.Top<T>(self: Stack<T>): T?
 	return Stack.Peek(self)
+end
+
+function Stack.Each<T>(self: Stack<T>, fn: (T) -> (), reverse: boolean?)
+	local node = reverse and self._tail or self._head
+	while node do
+		fn(node.value)
+		node = reverse and node.prev or node.next
+	end
 end
 
 function Stack.Iter<T>(self: Stack<T>, reverse: boolean?): () -> T?

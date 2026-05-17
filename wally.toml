@@ -1,6 +1,6 @@
 [package]
 name = "hgta1287dev/nexus"
-version = "3.0.3"
+version = "3.1.0"
 authors = ["hoamjg"]
 license = "MIT"
 registry = "https://github.com/UpliftGames/wally-index"
